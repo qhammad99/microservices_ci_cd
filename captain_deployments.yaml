@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: captain-deployment
+  namespace: m321
+  labels:
+    app: user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: captain
+  template:
+    metadata:
+      labels:
+        app: captain
+    spec:
+      containers:
+        - name: captain
+          image: agachan/lb321-capt:v1
+          ports:
+            - containerPort: 3002
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"  # Set a CPU request value (200 millicores)
+            limits:
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: captain-service
+  namespace: m321
+spec:
+  selector:
+    app: captain
+  ports:
+    - protocol: TCP
+      port: 3002
+      targetPort: 3002
+  type: ClusterIP

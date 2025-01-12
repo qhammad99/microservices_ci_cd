@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ride-deployment
+  namespace: m321
+  labels:
+    app: ride
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ride
+  template:
+    metadata:
+      labels:
+        app: ride
+    spec:
+      containers:
+        - name: ride
+          image: agachan/lb321-ride:v1
+          ports:
+            - containerPort: 3003
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"  # Set a CPU request value (200 millicores)
+            limits:
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ride-service
+  namespace: m321
+spec:
+  selector:
+    app: ride
+  ports:
+    - protocol: TCP
+      port: 3003
+      targetPort: 3003
+  type: ClusterIP

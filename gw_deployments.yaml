@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gw-deployment
+  namespace: m321
+  labels:
+    app: gw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gw
+  template:
+    metadata:
+      labels:
+        app: gw
+    spec:
+      containers:
+        - name: gw
+          image: agachan/lb321-gw:v1
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "200m"  # Set a CPU request value (200 millicores)
+            limits:
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gw-service
+  namespace: m321
+spec:
+  selector:
+    app: gw
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30004
+  type: NodePort
