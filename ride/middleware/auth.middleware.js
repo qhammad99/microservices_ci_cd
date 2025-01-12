@@ -10,8 +10,9 @@ module.exports.userAuth = async (req, res, next) => {
         if (!token) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
+        console.log(token);
+        console.log(process.env.JWT_SECRET)
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
         const response = await axios.get(`${process.env.BASE_URL}/user/profile`, {
             headers: {
                 Authorization: `Bearer ${token}`
