@@ -102,7 +102,7 @@ pipeline {
       steps {
         script {
           withKubeConfig([credentialsId: "kubernetes"]) {
-            sh 'kubectl apply -f *.yaml'
+            sh 'kubectl apply -f k8s'
           }
         }
       }
