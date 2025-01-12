@@ -4,6 +4,8 @@ const axios = require('axios');
 
 module.exports.userAuth = async (req, res, next) => {
     try {
+        console.log("from ride, is inside user auth?");
+
         const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
         if (!token) {
             return res.status(401).json({ message: 'Unauthorized' });
@@ -28,12 +30,15 @@ module.exports.userAuth = async (req, res, next) => {
 
     }
     catch (error) {
+        console.log("from ride, is inside user error: ", error);
+
         res.status(500).json({ message: error.message });
     }
 }
 
 module.exports.captainAuth = async (req, res, next) => {
     try {
+        console.log("from ride, is inside captain auth?");
         const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
         if (!token) {
             return res.status(401).json({ message: 'Unauthorized' });
@@ -58,6 +63,8 @@ module.exports.captainAuth = async (req, res, next) => {
 
     }
     catch (error) {
+        console.log("from ride, is inside captain error: ", error);
+
         res.status(500).json({ message: error.message });
     }
 }

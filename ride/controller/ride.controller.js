@@ -3,7 +3,7 @@ const { subscribeToQueue, publishToQueue } = require('../service/rabbit')
 
 module.exports.createRide = async (req, res, next) => {
 
-
+console.log("creting ride");
     const { pickup, destination } = req.body;
 
 
